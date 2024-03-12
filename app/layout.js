@@ -12,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} h-full bg-slate-200`}>
+      <body className={`${inter.className} h-full bg-white`}>
         <div className="flex flex-row h-full">
           <div className="pt-5 pb-5 bg-slate-600 relative h-full w-48 text-white">
             <Menu />

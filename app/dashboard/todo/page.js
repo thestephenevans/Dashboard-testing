@@ -96,8 +96,8 @@ export default function Page(){
                             {todoList.map(item => (
                                 <li key={item.id}>
                                     <Card color={item.completed? 'bg-green-500' : 'bg-gray-200'}>
-                                        <div className="flex flex-row justify-between align-center gap-2">
-                                            <input type = "checkbox" checked={item.completed} onChange={e => handleCompleted(item.id, e.target.checked)}/>
+                                        <div className="flex flex-row justify-between align-center gap-2" >
+                                            <input type = "checkbox" className="w-4" checked={item.completed} onChange={e => handleCompleted(item.id, e.target.checked)}/>
                                             <div className="flex flex-row align-center justify-between w-full">                   
                                                 {item.value}
                                                 <button onClick={() => handleDelete(item.id)}>
