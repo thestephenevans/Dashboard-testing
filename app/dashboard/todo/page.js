@@ -1,13 +1,10 @@
 import { sql } from "@vercel/postgres";
 import { NextResponse } from 'next/server';
-//import React, { useState, useEffect } from "react";
 import Card from "@/app/ui/dashboard/card";
 import Link from "next/link";
 
 
 export default async function Page(){
-    //const [list, setList] = useState([]);
-    //const [input, setInput] = useState('');
     let rows = [];
     try {
         const result = await sql`SELECT value, completed FROM list`;
@@ -44,12 +41,12 @@ export default async function Page(){
                             <form>
                                 <label htmlFor="to-do" className="text-white">Add Todo</label>
                                 <input 
-                                    //value={input} 
+                                    id = "user-input"
                                     type="text" 
                                     name="to-do" 
                                     className="block w-full px-4 py-2 border" 
                                 />
-                                <Link href = {`/api/add-task?taskValue=Test`}>
+                                <Link href = {`/api/add-task?taskValue=NEW-TASK`}>
                                     <button 
                                         type="submit" 
                                         className="block w-full px-4 py-2 mt-2 text-white bg-blue-500 hover:bg-blue-600"
@@ -69,7 +66,7 @@ export default async function Page(){
 
                         <ul className="list-none pl-0 flex flex-col gap-3">
                             {rows && rows.map(row => (
-                                <li key={row.id}>
+                                <li key={crypto.randomUUID}>
                                     <Card color={row.completed? 'bg-blue-400' : 'bg-gray-200'}>
                                         <div className="flex flex-row justify-between">
                                             <div className="w-5/12">
