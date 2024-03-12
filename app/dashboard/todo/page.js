@@ -2,26 +2,16 @@ import { sql } from "@vercel/postgres";
 import { NextResponse } from 'next/server';
 //import React, { useState, useEffect } from "react";
 import Card from "@/app/ui/dashboard/card";
-
-const handleSubmit = async (event) => {
-    'use server'
-    event.preventDefault();
-    
-    const inputValue = event.target.querySelector('input').value;
-
-    if(inputValue.trim() !== ''){
-        await sql`INSERT INTO LIST (id, value, completed) VALUES (${crypto.randomUUID()}, ${inputValue}, ${false})`;
-        event.target.querySelector('input').value = '';
-    }
-};
+import Link from "next/link";
 
 
 export default async function Page(){
     //const [list, setList] = useState([]);
     //const [input, setInput] = useState('');
-
+    let rows = [];
     try {
-        const { rows } = await sql`SELECT * from LIST`;
+        const result = await sql`SELECT value, completed FROM list`;
+        rows = result.rows;
         console.log(rows);
     } catch (error) {
         console.error('Error selecting rows from LIST table:', error.message);
@@ -51,7 +41,7 @@ export default async function Page(){
                 <div className="flex flex-row justify-between">
                     <div className="w-5/12">
                         <Card color='bg-blue-400'>
-                            <form onSubmit={handleSubmit}>
+                            <form>
                                 <label htmlFor="to-do" className="text-white">Add Todo</label>
                                 <input 
                                     //value={input} 
@@ -59,12 +49,14 @@ export default async function Page(){
                                     name="to-do" 
                                     className="block w-full px-4 py-2 border" 
                                 />
-                                <button 
-                                    type="submit" 
-                                    className="block w-full px-4 py-2 mt-2 text-white bg-blue-500 hover:bg-blue-600"
-                                >
-                                    Add
-                                </button>
+                                <Link href = {`/api/add-task?taskValue=Test`}>
+                                    <button 
+                                        type="submit" 
+                                        className="block w-full px-4 py-2 mt-2 text-white bg-blue-500 hover:bg-blue-600"
+                                    >
+                                        Add
+                                    </button>
+                                </Link>
                             </form>
                         </Card>
                     </div>
@@ -83,6 +75,9 @@ export default async function Page(){
                                             <div className="w-5/12">
                                                 <Card color='bg-blue-400'>
                                                     {row.value}
+                                                    <button>
+                                                        Delete
+                                                    </button>
                                                 </Card>
                                             </div>
                                         </div>
